@@ -8,8 +8,9 @@
 #include <climits>
 using namespace sf;
 
-const int win_w = 800;
-const int win_h = 600;
+//Глобальные переменные
+const int win_w = 1280;
+const int win_h = 720;
 const float pi = acosf(-1);
 const int R_range = 260;
 const Vector2f R_center(win_w / 2.3, win_h / 2.3);
@@ -17,6 +18,7 @@ const float R_vert = 20.f;
 const int dots = 100;
 Font typeface;
 
+//Классы
 class Matrix {
 public:
 	std::vector<std::vector<int>> adMat;
@@ -24,13 +26,21 @@ private:
 	static bool pathFinder(std::vector <std::vector<int>> mat) {
 		bool f = false;
 
-		for (int i = 0; i < mat.size(); i++)
-			for (int j = 0; j < mat.size(); j++)
+		for (int i = 0; i < mat.size() && !f; i++)
+			for (int j = 0; j < mat.size() && !f; j++)
 				if (mat[i][j] != INT32_MAX)
 					f = true;
 		return f;
 	}
 public:
+	Matrix(){}
+
+	Matrix(const Matrix& adMatrix) {
+		this->adMat = std::vector<std::vector<int>>(adMatrix.get_tops());
+		for (unsigned int i = 0; i < adMatrix.get_tops(); ++i)
+			copy(adMatrix.adMat[i].begin(), adMatrix.adMat[i].end(), back_inserter(adMat[i]));
+	}
+
 	Matrix(std::vector<std::vector<int>>& mat) {
 		this->adMat = std::vector<std::vector<int>>(mat.size());
 
@@ -41,76 +51,10 @@ public:
 			this->adMat[i][i] = INT32_MAX;
 	}
 
-	Matrix(int tops) {
-		adMat = std::vector<std::vector<int>>(tops);
+	int get_tops() const { return adMat.size(); }
 
-		for (int i = 0; i < tops; i++) {
-			adMat[i] = std::vector<int>(tops);
-			adMat[i][i] = INT32_MAX;
-		}
-	}
-	Matrix() : Matrix(7) {
-		adMat[0][0] = INT32_MAX;
-		adMat[0][1] = 5;
-		adMat[0][2] = 17;
-		adMat[0][3] = 23;
-		adMat[0][4] = 2;
-		adMat[0][5] = 10;
-		adMat[0][6] = 16;
-
-		adMat[1][0] = 15;
-		adMat[1][1] = INT32_MAX;
-		adMat[1][2] = 9;
-		adMat[1][3] = 10;
-		adMat[1][4] = 19;
-		adMat[1][5] = 3;
-		adMat[1][6] = 31;
-
-		adMat[2][0] = 24;
-		adMat[2][1] = 9;
-		adMat[2][2] = INT32_MAX;
-		adMat[2][3] = 22;
-		adMat[2][4] = 13;
-		adMat[2][5] = 46;
-		adMat[2][6] = 51;
-
-		adMat[3][0] = 37;
-		adMat[3][1] = 4;
-		adMat[3][2] = 13;
-		adMat[3][3] = INT32_MAX;
-		adMat[3][4] = 26;
-		adMat[3][5] = 41;
-		adMat[3][6] = 20;
-
-		adMat[4][0] = 6;
-		adMat[4][1] = 14;
-		adMat[4][2] = 15;
-		adMat[4][3] = 27;
-		adMat[4][4] = INT32_MAX;
-		adMat[4][5] = 33;
-		adMat[4][6] = 42;
-
-		adMat[5][0] = 15;
-		adMat[5][1] = 4;
-		adMat[5][2] = 7;
-		adMat[5][3] = 31;
-		adMat[5][4] = 10;
-		adMat[5][5] = INT32_MAX;
-		adMat[5][6] = 8;
-
-		adMat[6][0] = 11;
-		adMat[6][1] = 21;
-		adMat[6][2] = 34;
-		adMat[6][3] = 17;
-		adMat[6][4] = 9;
-		adMat[6][5] = 43;
-		adMat[6][6] = INT32_MAX;
-	}
-
-	int get_tops() { return adMat.size(); }
-
-	std::vector<std::pair<int, int>>& pathways() {
-		static std::vector<std::pair<int, int>> paths;
+	std::vector<std::pair<int, int>> pathways() const {
+		std::vector<std::pair<int, int>> paths;
 		std::vector<std::vector<int>> backup(get_tops());
 
 		for (int i = 0; i < get_tops(); i++)
@@ -162,7 +106,7 @@ public:
 							else if (backup[cnt][j] < minc && cnt != i)
 								minc = backup[cnt][j];
 						}
-						backup[i][j] = -(minl + minc);
+						backup[i][j] = -1 * (minl + minc);
 					}
 			}
 			//поиск наибольшей оценки
@@ -180,10 +124,10 @@ public:
 			for (int i = 0; i < get_tops(); i++)
 				for (int j = 0; j < get_tops(); j++) {
 
-					if (i == paths.back().first)
+					if (i == maxScore_l)
 						backup[i][j] = INT32_MAX;
 
-					if (j == paths.back().second)
+					if (j == maxScore_c)
 						backup[i][j] = INT32_MAX;
 
 					if (backup[i][j] < 0)
@@ -194,19 +138,20 @@ public:
 		return paths;
 	}
 
-	std::vector<int> getPath(int start) {
+	std::vector<int> getPath(int start)const {
 		if (start >= 0 && start < adMat.size()) {
 			std::vector<std::pair<int, int>> ways = pathways();
 			std::vector<int> path(adMat.size() + 1);
 			bool f;
+			int curP = start;
 
 			for (int i = 0; i < path.size(); i++) {
 				f = false;
 				for (int j = 0; j < ways.size() && !f; j++)
 
-					if (ways[j].first == start) {
-						path[i] = start;
-						start = ways[j].second;
+					if (ways[j].first == curP) {
+						path[i] = curP;
+						curP = ways[j].second;
 						f = true;
 					}
 				if (!f)
@@ -232,8 +177,8 @@ class Node : public Drawable {
 public:
 	Node(){}
 
-	Node(const sf::String& text, const Font& type, const int& size) {
-		this->note = Text(L"" + text, type, size);
+	Node(const sf::String& text, const int& size) {
+		this->note = Text(L"" + text, typeface, size);
 		this->note.setFillColor(Color::Black);
 
 		circle = CircleShape(R_vert, dots);
@@ -357,7 +302,7 @@ public:
 		nodes = std::vector<Node>(adMatrix.get_tops());
 
 		for (int i = 0; i < adMatrix.get_tops(); i++)
-			nodes[i] = Node(titles[i], typeFace, size);
+			nodes[i] = Node(titles[i], size);
 
 		Node::getRange(nodes);
 
@@ -390,18 +335,247 @@ public:
 					ribs[j].paintTextEnd();
 			}
 	}
+
+	void UploadData(std::vector<std::vector<int>>& mtrx, const std::vector<std::wstring>& titles, const Font& face, const int& size, const Vector2f& Rcenter,
+		const int& Rrange) {
+		ribs.erase(ribs.begin(), ribs.end());
+
+		this->adMatrix = Matrix(mtrx);
+		nodes = std::vector<Node>(adMatrix.get_tops());
+
+		for (int i = 0; i < adMatrix.get_tops(); i++)
+			nodes[i] = Node(titles[i], size);
+
+		Node::getRange(nodes);
+
+		for (int i = 0; i < adMatrix.get_tops(); i++)
+			for (int j = i + 1; j < adMatrix.get_tops(); j++) {
+
+				if (adMatrix.adMat[i][j] != INT32_MAX && adMatrix.adMat[j][i] != INT32_MAX) {
+					ribs.push_back(Edge(adMatrix.adMat[i][j], adMatrix.adMat[j][i], size));
+					ribs.back().setPos(nodes[i].getCenter(), nodes[j].getCenter());
+				}else if (adMatrix.adMat[i][j] == INT32_MAX && adMatrix.adMat[j][i] != INT32_MAX) {
+					ribs.push_back(Edge(INT32_MAX, adMatrix.adMat[j][i], size));
+					ribs.back().setPos(nodes[i].getCenter(), nodes[j].getCenter());
+				}else if (adMatrix.adMat[i][j] != INT32_MAX && adMatrix.adMat[j][i] == INT32_MAX) {
+					ribs.push_back(Edge(adMatrix.adMat[i][j], INT32_MAX, size));
+					ribs.back().setPos(nodes[i].getCenter(), nodes[j].getCenter());
+				}
+			}
+	}
 };
 
-void showMatrix(std::vector<std::vector<int>>& mtrx) {
+class Button: public Drawable{
+	RectangleShape shape;
+	Text txt;
+public:
+	Button(const std::wstring& text, const Font& face, const float& w, const float& h) {
+		this->txt.setString(text);
+		this->txt.setFont(face);
+		this->txt.setCharacterSize(14);
+		this->txt.setFillColor(Color::Black);
+
+		this->shape.setSize(Vector2f(w, h));
+		this->shape.setFillColor(Color::Magenta);
+		this->shape.setOutlineThickness(2.f);
+		this->shape.setOutlineColor(Color::Cyan);
+	}
+
+	void ButtonEvent(const Vector2i& mousePos, Clock& time, const Event& evnt, std::function<void()> act) {
+		if (shape.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+			float period = time.getElapsedTime().asMilliseconds();
+			bool f_Active = true;
+
+			if (period < 6.f)
+				f_Active = false;
+			else
+				time.restart();
+
+			shape.setOutlineThickness(3.f);
+
+			if (evnt.type == Event::MouseButtonPressed) {
+				if (evnt.key.code == Mouse::Left && f_Active)
+					shape.setFillColor(Color::Yellow);
+			}else if (evnt.type == Event::MouseButtonReleased && f_Active) {
+				if (evnt.key.code == Mouse::Left) {
+					shape.setFillColor(Color::Magenta);
+					act();
+				}
+			}
+		}else {
+			shape.setOutlineThickness(2.f);
+			shape.setFillColor(Color::Magenta);
+		}
+	}
+
+	void PositionSet(const float& x, const float& y) {
+		shape.setPosition(x - shape.getLocalBounds().width / 2, y - shape.getLocalBounds().height / 2);
+		txt.setPosition(x - txt.getLocalBounds().width / 2, y - txt.getLocalBounds().height / 2);
+	}
+
+	void draw(RenderTarget& obj, RenderStates statuses) const {
+		obj.draw(shape, statuses);
+		obj.draw(txt, statuses);
+	}
+};
+
+//Глобальные функции
+int getInput(const std::string& msg, int min = INT32_MIN, int max = INT32_MAX) {
+	int num = 0;
+	while (true) {
+		std::cout << msg;
+
+		std::string input;
+		std::getline(std::cin, input);
+
+		if (input.length() == 0)
+			continue;
+
+		const int cnt = count_if(input.begin(), input.end(), [](char symbol) {return isdigit(symbol); });
+
+		if (static_cast<size_t>(cnt) == input.length()) {
+			const int tmp = std::stoll(input);
+			
+			if (tmp <= std::numeric_limits<int>::max()) {
+				num = static_cast<int>(tmp);
+
+				if (num >= min && num <= max)
+					break;
+			}
+		}
+	}
+	return num;
+}
+
+std::vector<std::vector<int>> enterMatrix(std::vector<std::wstring>& titles) {
+	bool f_Input = false;
+	int cnt = getInput("Введите количество вершин: ", 3, 8);
+	std::vector<std::vector<int>> mtrx(cnt);
+
+	for (int i = 0; i < cnt; i++)
+		mtrx[i] = std::vector<int>(cnt);
+
+	titles.erase(titles.begin(), titles.end());
+	titles.resize(cnt);
+
+	for (int i = 0; i < cnt; i++)
+		titles[i] = std::to_wstring(i + 1);
+
+	int tmp = 0;
+	for (int i = 0; i < cnt; i++) {
+		for (int j = 0; j < cnt; j++) {
+			if (i != j) {
+				tmp = getInput("Введите длину дороги из пункта " + std::to_string(i + 1) + " в пункт " + std::to_string(j + 1) + ": ");
+
+				if (tmp <= 0)
+					mtrx[i][j] = INT32_MAX;
+				else mtrx[i][j] = tmp;
+
+			}else mtrx[i][j] = INT32_MAX;
+		}
+		titles.push_back(std::to_wstring(i + 1));
+	}
+
+	return mtrx;
+}
+
+void removeTop(std::vector<std::vector<int>>& mtrx, std::vector<std::wstring>& titles) {
+	bool f = false;
+	int rTop;
+
+	do {
+		rTop = getInput("Введите желаемую для удаления вершину: ", 1);
+
+		for (int i = 0; i < titles.size() && !f; i++)
+			if (std::to_wstring(rTop) == titles[i]) {
+				f = true;
+				rTop = i;
+			}
+
+		if (!f) std::cout << "Введённая вершина отсутствует!" << std::endl;
+
+	} while (!f);
+
+	std::vector<std::vector<int>> copy(mtrx.size() - 1);
+
+	for (int i = 0; i < copy.size(); i++)
+		copy[i] = std::vector<int>(copy.size());
+
+	for (int i = 0; i < mtrx.size(); i++)
+		for (int j = 0; j < mtrx.size(); j++) {
+			if (i < rTop && j < rTop)
+				copy[i][j] = mtrx[i][j];
+			else if (i < rTop && j > rTop)
+				copy[i][j - 1] = mtrx[i][j];
+
+			if (i > rTop && j < rTop)
+				copy[i - 1][j] = mtrx[i][j];
+			else if (i > rTop && j > rTop)
+				copy[i - 1][j - 1] = mtrx[i][j];
+		}
+
+	mtrx = copy;
+	int i = 0;
+
+	for (auto iter = titles.begin(); i <= rTop; ++i, ++iter)
+		if (i == rTop) {
+			titles.erase(iter);
+			break;
+		}
+}
+
+void addTop(std::vector<std::vector<int>>& mtrx, std::vector<std::wstring>& titles) {
+	for (int i = 0; i < mtrx.size(); i++)
+		mtrx[i].resize(mtrx[i].size() + 1);
+
+	mtrx.resize(mtrx.size() + 1);
+	mtrx.back() = std::vector<int>(mtrx.size());
+
+	titles.push_back(std::to_wstring(std::stoi(titles.back()) + 1));
+
+	int tmp;
+	for (int i = 0; i < mtrx.size() - 1; i++) {
+		std::cout << "Введите длину дороги из пункта ";
+		std::wcout << titles[i];
+		std::cout << " в пункт ";
+		std::wcout << titles.back();
+		std::cout << ": ";
+
+		tmp = getInput("", 0);
+		if (tmp <= 0)
+			mtrx[i].back() = INT32_MAX;
+		else
+			mtrx[i].back() = tmp;
+	}
+
+	for (int i = 0; i < mtrx.size() - 1; i++) {
+		std::cout << "Введите длину дороги из пункта ";
+		std::wcout << titles.back();
+		std::cout << " в пункт ";
+		std::wcout << titles[i];
+		std::cout << ": ";
+
+		tmp = getInput("", 0);
+		if (tmp <= 0)
+			mtrx.back()[i] = INT32_MAX;
+		else
+			mtrx.back()[i] = tmp;
+	}
+
+	mtrx.back().back() = INT32_MAX;
+}
+
+void showMatrix(std::vector<std::vector<int>>& mtrx, std::vector<std::wstring>& titles) {
+	std::cout << "Исходная матрица смежности:";
 	std::cout << std::endl;
 	std::cout << "\t";
 
 	for (int i = 0; i < mtrx.size(); i++)
-		std::cout << i + 1 << '\t';
+		std::wcout << titles[i] << '\t';
 	std::cout << std::endl;
 
 	for (int i = 0; i < mtrx.size(); i++) {
-		std::cout << i + 1 << "\t";
+		std::wcout << titles[i] << "\t";
 		for (int j = 0; j < mtrx.size(); j++) {
 
 			if (mtrx[i][j] == INT32_MAX)
@@ -412,51 +586,104 @@ void showMatrix(std::vector<std::vector<int>>& mtrx) {
 	}
 }
 
+void showInfo(Graph& g, std::vector<std::wstring>& titles) {
+	std::vector<std::pair<int, int>> ways = g.adMatrix.pathways();
+	std::cout << "Отрезки оптимального пути:\n";
+
+	for (int i = 0; i < ways.size(); i++)
+		std::wcout << titles[ways[i].first] << L"->" << titles[ways[i].second] << std::endl;
+
+	std::cout << "Длина оптимального пути: " << g.adMatrix.getSum(ways);
+	std::cout << "\nОптимальный путь из пункта ";
+	std::wcout << titles[0];
+	std::cout << ':';
+
+	std::vector<int> way = g.adMatrix.getPath(0);
+
+	for (int i = 0; i < way.size(); i++) {
+		if (i != way.size() - 1)
+			std::wcout << titles[way[i]] << "->";
+		else
+			std::wcout << titles[way[i]] << std::endl;
+	}
+}
+
+//Главная функция
 int main() {
 	setlocale(LC_ALL, "ru");
-
-	Matrix adjMat;
-	std::vector<int> vec;
-	int sum;
-	std::vector<std::pair<int, int>> paths = adjMat.pathways();
-
-	for_each(paths.begin(), paths.end(), [](std::pair<int, int>& it) {std::cout << it.first + 1 << "\t" << it.second + 1 << std::endl; });
-	vec = adjMat.getPath(5);
-
-	for (auto iter = vec.begin(); iter < vec.end(); ++iter)
-		std::cout << *iter + 1 << "->";
-	std::cout << "end";
-
-	sum = adjMat.getSum(paths);
-	std::cout << "\nОптимальная длина пути: " << sum;
 
 	ContextSettings settings;
 	settings.antialiasingLevel = 9;
 	typeface.loadFromFile("tahoma.ttf");
 	RenderWindow window(VideoMode(win_w, win_h), "Graph", sf::Style::Close | sf::Style::Titlebar, settings);
 
-	std::vector<std::wstring> names = { L"1", L"2", L"3", L"4", L"5", L"6", L"7"};
+	std::vector<std::wstring> names = { L"1", L"2", L"3", L"4", L"5", L"6"};
 	std::vector<std::vector<int>> mtrx = {
 		std::vector<int>{INT32_MAX, 5, 17, 23, 2, 10, 16},
 		std::vector<int>{15, INT32_MAX, 9, 10, 19, 3, 31},
 		std::vector<int>{24, 9, INT32_MAX, 22, 13, 46, 51},
 		std::vector<int>{37, 4, 13, INT32_MAX, 26, 41, 20},
 		std::vector<int>{6, 14, 15, 27, INT32_MAX, 33, 42},
-		std::vector<int>{5, 4, 7, 31, 10, INT32_MAX, 8},
-		std::vector<int>{11, 21, 34, 17, 9, 43, INT32_MAX} };
+		std::vector<int>{5, 4, 7, 31, 10, INT32_MAX, 8} };
 	Graph gr(mtrx, names, typeface, 14);
-	Node* displace = nullptr;
-	Edge rib(10, 7, 14);
+	Button enter(L"Ввести матрицу", typeface, 150.f, 30.f);
+	enter.PositionSet(90.f, 650.f);
+	Button add(L"Добавить вершину", typeface, 150.f, 30.f);
+	add.PositionSet(270.f, 650.f);
+	Button del(L"Удалить вершину", typeface, 150.f, 30.f);
+	del.PositionSet(450.f, 650.f);
+	Clock timer;
 
-	showMatrix(mtrx);
+	showMatrix(mtrx, names);
+	showInfo(gr, names);
 
 	gr.paintRightWay();
 
 	while (window.isOpen()) {
+		Vector2i cursor = Mouse::getPosition(window);
 		Event evnt;
 
-		while(window.pollEvent(evnt))
+		while (window.pollEvent(evnt)) {
 			if (evnt.type == Event::Closed) window.close();
+
+			enter.ButtonEvent(cursor, timer, evnt, [&gr, &names]()->void {
+				system("cls");
+				std::vector<std::vector<int>> mat = enterMatrix(names);
+				showMatrix(mat, names);
+				gr.UploadData(mat, names, typeface, 14, Vector2f(260.f, 260.f), 200);
+				gr.paintRightWay();
+				showInfo(gr, names); 
+			});
+
+			add.ButtonEvent(cursor, timer, evnt, [&gr, &names]()->void {
+				if (gr.adMatrix.adMat.size() < 9) {
+					system("cls");
+					showMatrix(gr.adMatrix.adMat, names);
+					addTop(gr.adMatrix.adMat, names);
+					showMatrix(gr.adMatrix.adMat, names);
+					gr.UploadData(gr.adMatrix.adMat, names, typeface, 14, Vector2f(260.f, 260.f), 200);
+					gr.paintRightWay();
+					showInfo(gr, names);
+				}else std::cout << "Достигнут максимум вершин, добавление невозможно!" << std::endl;
+				});
+
+			del.ButtonEvent(cursor, timer, evnt, [&gr, &names]()->void {
+				if (gr.adMatrix.adMat.size() > 3) {
+					try {
+						system("cls");
+						showMatrix(gr.adMatrix.adMat, names);
+						removeTop(gr.adMatrix.adMat, names);
+						showMatrix(gr.adMatrix.adMat, names);
+						gr.UploadData(gr.adMatrix.adMat, names, typeface, 14, Vector2f(260.f, 260.f), 200);
+						gr.paintRightWay();
+						showInfo(gr, names);
+					}
+					catch (std::exception& exc) {
+						std::cout << exc.what() << std::endl;
+					}
+				}else std::cout << "Удаление невозможно!" << std::endl;
+				});
+		}
 
 		window.clear(Color::Black);
 
@@ -465,8 +692,11 @@ int main() {
 		for (int i = 0; i < gr.ribs.size(); i++)
 			window.draw(gr.ribs[i]);
 		for (int i = 0; i < gr.nodes.size(); i++)
-			window.draw(gr.nodes[i]);/
+			window.draw(gr.nodes[i]);
 
+		window.draw(enter);
+		window.draw(del);
+		window.draw(add);
 		window.display();
 	}
 	return 0;

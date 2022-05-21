@@ -367,6 +367,7 @@ namespace Calculator {
 		Owner->Show();
 		this->Close();
 	}
+		   //функции-проверки ввода полей
 		   bool check_input_Loan2() {
 			   if (Loan2->Text->Length == 0) return false;
 			   for (unsigned int i = 0; i < Loan2->Text->Length; i++) {

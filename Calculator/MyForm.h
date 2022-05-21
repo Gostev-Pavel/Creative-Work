@@ -349,7 +349,7 @@ namespace Calculator {
 	}
 private: System::Void textBox2_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 }
-
+	   //функции-проверки ввода полей
 	   bool check_input_Loan() {
 		   if (Loan->Text->Length == 0) return false;
 		   for (unsigned int i = 0; i < Loan->Text->Length; i++) {
