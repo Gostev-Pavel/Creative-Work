@@ -12,7 +12,7 @@ namespace Calculator {
 	using namespace System::Drawing;
 
 	/// <summary>
-	/// Сводка для MyForm
+	/// Г‘ГўГ®Г¤ГЄГ  Г¤Г«Гї MyForm
 	/// </summary>
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
@@ -21,13 +21,13 @@ namespace Calculator {
 		{
 			InitializeComponent();
 			//
-			//TODO: добавьте код конструктора
+			//TODO: Г¤Г®ГЎГ ГўГјГІГҐ ГЄГ®Г¤ ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г°Г 
 			//
 		}
 
 	protected:
 		/// <summary>
-		/// Освободить все используемые ресурсы.
+		/// ГЋГ±ГўГ®ГЎГ®Г¤ГЁГІГј ГўГ±ГҐ ГЁГ±ГЇГ®Г«ГјГ§ГіГҐГ¬Г»ГҐ Г°ГҐГ±ГіГ°Г±Г».
 		/// </summary>
 		~MyForm()
 		{
@@ -88,14 +88,14 @@ namespace Calculator {
 
 	private:
 		/// <summary>
-		/// Обязательная переменная конструктора.
+		/// ГЋГЎГїГ§Г ГІГҐГ«ГјГ­Г Гї ГЇГҐГ°ГҐГ¬ГҐГ­Г­Г Гї ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г°Г .
 		/// </summary>
 
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
-		/// Требуемый метод для поддержки конструктора — не изменяйте 
-		/// содержимое этого метода с помощью редактора кода.
+		/// Г’Г°ГҐГЎГіГҐГ¬Г»Г© Г¬ГҐГІГ®Г¤ Г¤Г«Гї ГЇГ®Г¤Г¤ГҐГ°Г¦ГЄГЁ ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г°Г  вЂ” Г­ГҐ ГЁГ§Г¬ГҐГ­ГїГ©ГІГҐ 
+		/// Г±Г®Г¤ГҐГ°Г¦ГЁГ¬Г®ГҐ ГЅГІГ®ГЈГ® Г¬ГҐГІГ®Г¤Г  Г± ГЇГ®Г¬Г®Г№ГјГѕ Г°ГҐГ¤Г ГЄГІГ®Г°Г  ГЄГ®Г¤Г .
 		/// </summary>
 		void InitializeComponent(void)
 		{
@@ -263,7 +263,7 @@ namespace Calculator {
 			this->toolTip1->InitialDelay = 200;
 			this->toolTip1->ReshowDelay = 100;
 			this->toolTip1->ToolTipIcon = System::Windows::Forms::ToolTipIcon::Warning;
-			this->toolTip1->ToolTipTitle = L"Внимание!";
+			this->toolTip1->ToolTipTitle = L"Р’РЅРёРјР°РЅРёРµ!";
 			// 
 			// toolTip2
 			// 
@@ -302,7 +302,7 @@ namespace Calculator {
 			this->toolTip4->InitialDelay = 200;
 			this->toolTip4->ReshowDelay = 100;
 			this->toolTip4->ToolTipIcon = System::Windows::Forms::ToolTipIcon::Warning;
-			this->toolTip4->ToolTipTitle = L"Внимание!";
+			this->toolTip4->ToolTipTitle = L"Р’РЅРёРјР°РЅРёРµ!";
 			// 
 			// toolTip5
 			// 
@@ -349,7 +349,7 @@ namespace Calculator {
 	}
 private: System::Void textBox2_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 }
-	   //функции-проверки ввода полей
+	   //С„СѓРЅРєС†РёРё-РїСЂРѕРІРµСЂРєРё РІРІРѕРґР° РїРѕР»РµР№
 	   bool check_input_Loan() {
 		   if (Loan->Text->Length == 0) return false;
 		   for (unsigned int i = 0; i < Loan->Text->Length; i++) {
@@ -396,7 +396,7 @@ private: System::Void Calculate_Click(System::Object^ sender, System::EventArgs^
 		Sum = int(Sum);
 		MonthlyPayment->Text = System::Convert::ToString(M);
 		TotalPayment->Text = System::Convert::ToString(Sum);
-	}else MessageBox::Show("Введены некорректные данные!");
+	}else MessageBox::Show("Р’РІРµРґРµРЅС‹ РЅРµРєРѕСЂСЂРµРєС‚РЅС‹Рµ РґР°РЅРЅС‹Рµ!");
 }
 private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
 	Loan->Text = "";
