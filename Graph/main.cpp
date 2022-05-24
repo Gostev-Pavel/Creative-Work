@@ -8,7 +8,7 @@
 #include <climits>
 using namespace sf;
 
-//Глобальные переменные
+//Р“Р»РѕР±Р°Р»СЊРЅС‹Рµ РїРµСЂРµРјРµРЅРЅС‹Рµ
 const int win_w = 1280;
 const int win_h = 720;
 const float pi = acosf(-1);
@@ -18,7 +18,7 @@ const float R_vert = 20.f;
 const int dots = 100;
 Font typeface;
 
-//Классы
+//РљР»Р°СЃСЃС‹
 class Matrix {
 public:
 	std::vector<std::vector<int>> adMat;
@@ -61,14 +61,14 @@ public:
 			copy(adMat[i].begin(), adMat[i].end(), back_inserter(backup[i]));
 
 		while (pathFinder(backup)) {
-			//минимумы строк
+			//РјРёРЅРёРјСѓРјС‹ СЃС‚СЂРѕРє
 			std::vector<int> minLine(get_tops());
 			for (int i = 0; i < get_tops(); i++)
 				minLine[i] = *min_element(backup[i].begin(), backup[i].end());
-			//редукция строк
+			//СЂРµРґСѓРєС†РёСЏ СЃС‚СЂРѕРє
 			for (int i = 0; i < get_tops(); i++)
 				for_each(backup[i].begin(), backup[i].end(), [&i, &minLine](int& digit)->void {if (digit != INT32_MAX) digit -= minLine[i]; });
-			//минимумы столбцов
+			//РјРёРЅРёРјСѓРјС‹ СЃС‚РѕР»Р±С†РѕРІ
 			std::vector<int> minCol(get_tops());
 			for (int j = 0; j < get_tops(); j++) {
 				int lowest = INT32_MAX;
@@ -79,13 +79,13 @@ public:
 
 				minCol[j] = lowest;
 			}
-			//редукция столбцов
+			//СЂРµРґСѓРєС†РёСЏ СЃС‚РѕР»Р±С†РѕРІ
 			for (int j = 0; j < get_tops(); j++)
 				for (int i = 0; i < get_tops(); i++)
 
 					if (backup[i][j] != INT32_MAX)
 						backup[i][j] -= minCol[j];
-			//оценка нулей
+			//РѕС†РµРЅРєР° РЅСѓР»РµР№
 			for (int i = 0; i < get_tops(); i++) {
 				for (int j = 0; j < get_tops(); j++)
 
@@ -109,7 +109,7 @@ public:
 						backup[i][j] = -1 * (minl + minc);
 					}
 			}
-			//поиск наибольшей оценки
+			//РїРѕРёСЃРє РЅР°РёР±РѕР»СЊС€РµР№ РѕС†РµРЅРєРё
 			int maxScore = INT32_MAX, maxScore_l = INT32_MAX, maxScore_c = INT32_MAX;
 			for (int l = 0; l < get_tops(); l++)
 				for (int c = 0; c < get_tops(); c++)
@@ -120,7 +120,7 @@ public:
 						maxScore_c = c;
 					}
 			paths.push_back(std::pair<int, int>{maxScore_l, maxScore_c});
-			//отметка найденного пути и очищение матрицы от оценок
+			//РѕС‚РјРµС‚РєР° РЅР°Р№РґРµРЅРЅРѕРіРѕ РїСѓС‚Рё Рё РѕС‡РёС‰РµРЅРёРµ РјР°С‚СЂРёС†С‹ РѕС‚ РѕС†РµРЅРѕРє
 			for (int i = 0; i < get_tops(); i++)
 				for (int j = 0; j < get_tops(); j++) {
 
@@ -155,10 +155,10 @@ public:
 						f = true;
 					}
 				if (!f)
-					throw std::invalid_argument("Решение для данной точки не найдено!");
+					throw std::invalid_argument("Р РµС€РµРЅРёРµ РґР»СЏ РґР°РЅРЅРѕР№ С‚РѕС‡РєРё РЅРµ РЅР°Р№РґРµРЅРѕ!");
 			}
 			return path;
-		}else throw std::invalid_argument("Указанной точки не существует!");
+		}else throw std::invalid_argument("РЈРєР°Р·Р°РЅРЅРѕР№ С‚РѕС‡РєРё РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚!");
 	}
 
 	int getSum(std::vector<std::pair<int, int>>& v) const {
@@ -419,7 +419,7 @@ public:
 	}
 };
 
-//Глобальные функции
+//Р“Р»РѕР±Р°Р»СЊРЅС‹Рµ С„СѓРЅРєС†РёРё
 int getInput(const std::string& msg, int min = INT32_MIN, int max = INT32_MAX) {
 	int num = 0;
 	while (true) {
@@ -449,7 +449,7 @@ int getInput(const std::string& msg, int min = INT32_MIN, int max = INT32_MAX) {
 
 std::vector<std::vector<int>> enterMatrix(std::vector<std::wstring>& titles) {
 	bool f_Input = false;
-	int cnt = getInput("Введите количество вершин: ", 3, 8);
+	int cnt = getInput("Р’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ РІРµСЂС€РёРЅ: ", 3, 8);
 	std::vector<std::vector<int>> mtrx(cnt);
 
 	for (int i = 0; i < cnt; i++)
@@ -465,7 +465,7 @@ std::vector<std::vector<int>> enterMatrix(std::vector<std::wstring>& titles) {
 	for (int i = 0; i < cnt; i++) {
 		for (int j = 0; j < cnt; j++) {
 			if (i != j) {
-				tmp = getInput("Введите длину дороги из пункта " + std::to_string(i + 1) + " в пункт " + std::to_string(j + 1) + ": ");
+				tmp = getInput("Р’РІРµРґРёС‚Рµ РґР»РёРЅСѓ РґРѕСЂРѕРіРё РёР· РїСѓРЅРєС‚Р° " + std::to_string(i + 1) + " РІ РїСѓРЅРєС‚ " + std::to_string(j + 1) + ": ");
 
 				if (tmp <= 0)
 					mtrx[i][j] = INT32_MAX;
@@ -484,7 +484,7 @@ void removeTop(std::vector<std::vector<int>>& mtrx, std::vector<std::wstring>& t
 	int rTop;
 
 	do {
-		rTop = getInput("Введите желаемую для удаления вершину: ", 1);
+		rTop = getInput("Р’РІРµРґРёС‚Рµ Р¶РµР»Р°РµРјСѓСЋ РґР»СЏ СѓРґР°Р»РµРЅРёСЏ РІРµСЂС€РёРЅСѓ: ", 1);
 
 		for (int i = 0; i < titles.size() && !f; i++)
 			if (std::to_wstring(rTop) == titles[i]) {
@@ -492,7 +492,7 @@ void removeTop(std::vector<std::vector<int>>& mtrx, std::vector<std::wstring>& t
 				rTop = i;
 			}
 
-		if (!f) std::cout << "Введённая вершина отсутствует!" << std::endl;
+		if (!f) std::cout << "Р’РІРµРґС‘РЅРЅР°СЏ РІРµСЂС€РёРЅР° РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚!" << std::endl;
 
 	} while (!f);
 
@@ -535,9 +535,9 @@ void addTop(std::vector<std::vector<int>>& mtrx, std::vector<std::wstring>& titl
 
 	int tmp;
 	for (int i = 0; i < mtrx.size() - 1; i++) {
-		std::cout << "Введите длину дороги из пункта ";
+		std::cout << "Р’РІРµРґРёС‚Рµ РґР»РёРЅСѓ РґРѕСЂРѕРіРё РёР· РїСѓРЅРєС‚Р° ";
 		std::wcout << titles[i];
-		std::cout << " в пункт ";
+		std::cout << " РІ РїСѓРЅРєС‚ ";
 		std::wcout << titles.back();
 		std::cout << ": ";
 
@@ -549,9 +549,9 @@ void addTop(std::vector<std::vector<int>>& mtrx, std::vector<std::wstring>& titl
 	}
 
 	for (int i = 0; i < mtrx.size() - 1; i++) {
-		std::cout << "Введите длину дороги из пункта ";
+		std::cout << "Р’РІРµРґРёС‚Рµ РґР»РёРЅСѓ РґРѕСЂРѕРіРё РёР· РїСѓРЅРєС‚Р° ";
 		std::wcout << titles.back();
-		std::cout << " в пункт ";
+		std::cout << " РІ РїСѓРЅРєС‚ ";
 		std::wcout << titles[i];
 		std::cout << ": ";
 
@@ -566,7 +566,7 @@ void addTop(std::vector<std::vector<int>>& mtrx, std::vector<std::wstring>& titl
 }
 
 void showMatrix(std::vector<std::vector<int>>& mtrx, std::vector<std::wstring>& titles) {
-	std::cout << "Исходная матрица смежности:";
+	std::cout << "РСЃС…РѕРґРЅР°СЏ РјР°С‚СЂРёС†Р° СЃРјРµР¶РЅРѕСЃС‚Рё:";
 	std::cout << std::endl;
 	std::cout << "\t";
 
@@ -588,13 +588,13 @@ void showMatrix(std::vector<std::vector<int>>& mtrx, std::vector<std::wstring>& 
 
 void showInfo(Graph& g, std::vector<std::wstring>& titles) {
 	std::vector<std::pair<int, int>> ways = g.adMatrix.pathways();
-	std::cout << "Отрезки оптимального пути:\n";
+	std::cout << "РћС‚СЂРµР·РєРё РѕРїС‚РёРјР°Р»СЊРЅРѕРіРѕ РїСѓС‚Рё:\n";
 
 	for (int i = 0; i < ways.size(); i++)
 		std::wcout << titles[ways[i].first] << L"->" << titles[ways[i].second] << std::endl;
 
-	std::cout << "Длина оптимального пути: " << g.adMatrix.getSum(ways);
-	std::cout << "\nОптимальный путь из пункта ";
+	std::cout << "Р”Р»РёРЅР° РѕРїС‚РёРјР°Р»СЊРЅРѕРіРѕ РїСѓС‚Рё: " << g.adMatrix.getSum(ways);
+	std::cout << "\nРћРїС‚РёРјР°Р»СЊРЅС‹Р№ РїСѓС‚СЊ РёР· РїСѓРЅРєС‚Р° ";
 	std::wcout << titles[0];
 	std::cout << ':';
 
@@ -608,7 +608,7 @@ void showInfo(Graph& g, std::vector<std::wstring>& titles) {
 	}
 }
 
-//Главная функция
+//Р“Р»Р°РІРЅР°СЏ С„СѓРЅРєС†РёСЏ
 int main() {
 	setlocale(LC_ALL, "ru");
 
@@ -626,11 +626,11 @@ int main() {
 		std::vector<int>{6, 14, 15, 27, INT32_MAX, 33, 42},
 		std::vector<int>{5, 4, 7, 31, 10, INT32_MAX, 8} };
 	Graph gr(mtrx, names, typeface, 14);
-	Button enter(L"Ввести матрицу", typeface, 150.f, 30.f);
+	Button enter(L"Р’РІРµСЃС‚Рё РјР°С‚СЂРёС†Сѓ", typeface, 150.f, 30.f);
 	enter.PositionSet(90.f, 650.f);
-	Button add(L"Добавить вершину", typeface, 150.f, 30.f);
+	Button add(L"Р”РѕР±Р°РІРёС‚СЊ РІРµСЂС€РёРЅСѓ", typeface, 150.f, 30.f);
 	add.PositionSet(270.f, 650.f);
-	Button del(L"Удалить вершину", typeface, 150.f, 30.f);
+	Button del(L"РЈРґР°Р»РёС‚СЊ РІРµСЂС€РёРЅСѓ", typeface, 150.f, 30.f);
 	del.PositionSet(450.f, 650.f);
 	Clock timer;
 
@@ -664,7 +664,7 @@ int main() {
 					gr.UploadData(gr.adMatrix.adMat, names, typeface, 14, Vector2f(260.f, 260.f), 200);
 					gr.paintRightWay();
 					showInfo(gr, names);
-				}else std::cout << "Достигнут максимум вершин, добавление невозможно!" << std::endl;
+				}else std::cout << "Р”РѕСЃС‚РёРіРЅСѓС‚ РјР°РєСЃРёРјСѓРј РІРµСЂС€РёРЅ, РґРѕР±Р°РІР»РµРЅРёРµ РЅРµРІРѕР·РјРѕР¶РЅРѕ!" << std::endl;
 				});
 
 			del.ButtonEvent(cursor, timer, evnt, [&gr, &names]()->void {
@@ -681,7 +681,7 @@ int main() {
 					catch (std::exception& exc) {
 						std::cout << exc.what() << std::endl;
 					}
-				}else std::cout << "Удаление невозможно!" << std::endl;
+				}else std::cout << "РЈРґР°Р»РµРЅРёРµ РЅРµРІРѕР·РјРѕР¶РЅРѕ!" << std::endl;
 				});
 		}
 
