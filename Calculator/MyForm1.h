@@ -11,7 +11,7 @@ namespace Calculator {
 	using namespace System::Drawing;
 
 	/// <summary>
-	/// Сводка для MyForm1
+	/// Г‘ГўГ®Г¤ГЄГ  Г¤Г«Гї MyForm1
 	/// </summary>
 	public ref class MyForm1 : public System::Windows::Forms::Form
 	{
@@ -20,13 +20,13 @@ namespace Calculator {
 		{
 			InitializeComponent();
 			//
-			//TODO: добавьте код конструктора
+			//TODO: Г¤Г®ГЎГ ГўГјГІГҐ ГЄГ®Г¤ ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г°Г 
 			//
 		}
 
 	protected:
 		/// <summary>
-		/// Освободить все используемые ресурсы.
+		/// ГЋГ±ГўГ®ГЎГ®Г¤ГЁГІГј ГўГ±ГҐ ГЁГ±ГЇГ®Г«ГјГ§ГіГҐГ¬Г»ГҐ Г°ГҐГ±ГіГ°Г±Г».
 		/// </summary>
 		~MyForm1()
 		{
@@ -64,14 +64,14 @@ namespace Calculator {
 
 	private:
 		/// <summary>
-		/// Обязательная переменная конструктора.
+		/// ГЋГЎГїГ§Г ГІГҐГ«ГјГ­Г Гї ГЇГҐГ°ГҐГ¬ГҐГ­Г­Г Гї ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г°Г .
 		/// </summary>
 
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
-		/// Требуемый метод для поддержки конструктора — не изменяйте 
-		/// содержимое этого метода с помощью редактора кода.
+		/// Г’Г°ГҐГЎГіГҐГ¬Г»Г© Г¬ГҐГІГ®Г¤ Г¤Г«Гї ГЇГ®Г¤Г¤ГҐГ°Г¦ГЄГЁ ГЄГ®Г­Г±ГІГ°ГіГЄГІГ®Г°Г  вЂ” Г­ГҐ ГЁГ§Г¬ГҐГ­ГїГ©ГІГҐ 
+		/// Г±Г®Г¤ГҐГ°Г¦ГЁГ¬Г®ГҐ ГЅГІГ®ГЈГ® Г¬ГҐГІГ®Г¤Г  Г± ГЇГ®Г¬Г®Г№ГјГѕ Г°ГҐГ¤Г ГЄГІГ®Г°Г  ГЄГ®Г¤Г .
 		/// </summary>
 		void InitializeComponent(void)
 		{
@@ -109,8 +109,8 @@ namespace Calculator {
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(173, 67);
 			this->button1->TabIndex = 25;
-			this->button1->Text = L"Анн. платежи";
-			this->toolTip14->SetToolTip(this->button1, L"Переход к подсчёту кредитов с аннуитетными платежами");
+			this->button1->Text = L"РђРЅРЅ. РїР»Р°С‚РµР¶Рё";
+			this->toolTip14->SetToolTip(this->button1, L"РџРµСЂРµС…РѕРґ Рє РїРѕРґСЃС‡С‘С‚Сѓ РєСЂРµРґРёС‚РѕРІ СЃ Р°РЅРЅСѓРёС‚РµС‚РЅС‹РјРё РїР»Р°С‚РµР¶Р°РјРё");
 			this->button1->UseVisualStyleBackColor = false;
 			this->button1->Click += gcnew System::EventHandler(this, &MyForm1::button1_Click);
 			// 
@@ -138,8 +138,8 @@ namespace Calculator {
 			this->Clear->Name = L"Clear";
 			this->Clear->Size = System::Drawing::Size(220, 38);
 			this->Clear->TabIndex = 29;
-			this->Clear->Text = L"Очистить";
-			this->toolTip13->SetToolTip(this->Clear, L"Данная кнопка очищает все поля ввода (в том числе поля результатов)");
+			this->Clear->Text = L"РћС‡РёСЃС‚РёС‚СЊ";
+			this->toolTip13->SetToolTip(this->Clear, L"Р”Р°РЅРЅР°СЏ РєРЅРѕРїРєР° РѕС‡РёС‰Р°РµС‚ РІСЃРµ РїРѕР»СЏ РІРІРѕРґР° (РІ С‚РѕРј С‡РёСЃР»Рµ РїРѕР»СЏ СЂРµР·СѓР»СЊС‚Р°С‚РѕРІ)");
 			this->Clear->UseVisualStyleBackColor = false;
 			this->Clear->Click += gcnew System::EventHandler(this, &MyForm1::Clear_Click);
 			// 
@@ -155,8 +155,8 @@ namespace Calculator {
 			this->Calculate2->Name = L"Calculate2";
 			this->Calculate2->Size = System::Drawing::Size(220, 38);
 			this->Calculate2->TabIndex = 28;
-			this->Calculate2->Text = L"Рассчитать";
-			this->toolTip15->SetToolTip(this->Calculate2, L"Данная кнопка запускает расчёт с введёнными данными");
+			this->Calculate2->Text = L"Р Р°СЃСЃС‡РёС‚Р°С‚СЊ";
+			this->toolTip15->SetToolTip(this->Calculate2, L"Р”Р°РЅРЅР°СЏ РєРЅРѕРїРєР° Р·Р°РїСѓСЃРєР°РµС‚ СЂР°СЃС‡С‘С‚ СЃ РІРІРµРґС‘РЅРЅС‹РјРё РґР°РЅРЅС‹РјРё");
 			this->Calculate2->UseVisualStyleBackColor = false;
 			this->Calculate2->Click += gcnew System::EventHandler(this, &MyForm1::Calculate2_Click);
 			// 
@@ -172,7 +172,7 @@ namespace Calculator {
 			this->label62->Name = L"label62";
 			this->label62->Size = System::Drawing::Size(332, 34);
 			this->label62->TabIndex = 31;
-			this->label62->Text = L"Годовая ставка по кредиту:";
+			this->label62->Text = L"Р“РѕРґРѕРІР°СЏ СЃС‚Р°РІРєР° РїРѕ РєСЂРµРґРёС‚Сѓ:";
 			// 
 			// Rate2
 			// 
@@ -185,7 +185,7 @@ namespace Calculator {
 			this->Rate2->Name = L"Rate2";
 			this->Rate2->Size = System::Drawing::Size(81, 28);
 			this->Rate2->TabIndex = 27;
-			this->toolTip11->SetToolTip(this->Rate2, L"Десятичные числа вводить только через запятую");
+			this->toolTip11->SetToolTip(this->Rate2, L"Р”РµСЃСЏС‚РёС‡РЅС‹Рµ С‡РёСЃР»Р° РІРІРѕРґРёС‚СЊ С‚РѕР»СЊРєРѕ С‡РµСЂРµР· Р·Р°РїСЏС‚СѓСЋ");
 			// 
 			// label32
 			// 
@@ -199,7 +199,7 @@ namespace Calculator {
 			this->label32->Name = L"label32";
 			this->label32->Size = System::Drawing::Size(328, 34);
 			this->label32->TabIndex = 30;
-			this->label32->Text = L"Сумма желаемого кредита:";
+			this->label32->Text = L"РЎСѓРјРјР° Р¶РµР»Р°РµРјРѕРіРѕ РєСЂРµРґРёС‚Р°:";
 			// 
 			// Loan2
 			// 
@@ -225,7 +225,7 @@ namespace Calculator {
 			this->label4->Name = L"label4";
 			this->label4->Size = System::Drawing::Size(403, 34);
 			this->label4->TabIndex = 36;
-			this->label4->Text = L"Количество платёжных периодов:";
+			this->label4->Text = L"РљРѕР»РёС‡РµСЃС‚РІРѕ РїР»Р°С‚С‘Р¶РЅС‹С… РїРµСЂРёРѕРґРѕРІ:";
 			// 
 			// Days2
 			// 
@@ -239,7 +239,7 @@ namespace Calculator {
 			this->Days2->Name = L"Days2";
 			this->Days2->Size = System::Drawing::Size(140, 28);
 			this->Days2->TabIndex = 33;
-			this->toolTip12->SetToolTip(this->Days2, L"Количество месяцев, за которое планируется погасить кредит");
+			this->toolTip12->SetToolTip(this->Days2, L"РљРѕР»РёС‡РµСЃС‚РІРѕ РјРµСЃСЏС†РµРІ, Р·Р° РєРѕС‚РѕСЂРѕРµ РїР»Р°РЅРёСЂСѓРµС‚СЃСЏ РїРѕРіР°СЃРёС‚СЊ РєСЂРµРґРёС‚");
 			// 
 			// label82
 			// 
@@ -253,7 +253,7 @@ namespace Calculator {
 			this->label82->Name = L"label82";
 			this->label82->Size = System::Drawing::Size(292, 34);
 			this->label82->TabIndex = 40;
-			this->label82->Text = L"Общая сумма переплат:";
+			this->label82->Text = L"РћР±С‰Р°СЏ СЃСѓРјРјР° РїРµСЂРµРїР»Р°С‚:";
 			// 
 			// TotalPayment2
 			// 
@@ -279,7 +279,7 @@ namespace Calculator {
 			this->label72->Name = L"label72";
 			this->label72->Size = System::Drawing::Size(224, 34);
 			this->label72->TabIndex = 38;
-			this->label72->Text = L"Основной платёж:";
+			this->label72->Text = L"РћСЃРЅРѕРІРЅРѕР№ РїР»Р°С‚С‘Р¶:";
 			// 
 			// MonthlyPayment2
 			// 
@@ -300,7 +300,7 @@ namespace Calculator {
 			this->toolTip11->InitialDelay = 200;
 			this->toolTip11->ReshowDelay = 100;
 			this->toolTip11->ToolTipIcon = System::Windows::Forms::ToolTipIcon::Warning;
-			this->toolTip11->ToolTipTitle = L"Внимание!";
+			this->toolTip11->ToolTipTitle = L"Р’РЅРёРјР°РЅРёРµ!";
 			// 
 			// toolTip12
 			// 
@@ -357,7 +357,7 @@ namespace Calculator {
 			this->Controls->Add(this->button1);
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->Name = L"MyForm1";
-			this->Text = L"Кредит с дифференцированными платежами";
+			this->Text = L"РљСЂРµРґРёС‚ СЃ РґРёС„С„РµСЂРµРЅС†РёСЂРѕРІР°РЅРЅС‹РјРё РїР»Р°С‚РµР¶Р°РјРё";
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -367,7 +367,7 @@ namespace Calculator {
 		Owner->Show();
 		this->Close();
 	}
-		   //функции-проверки ввода полей
+		   //С„СѓРЅРєС†РёРё-РїСЂРѕРІРµСЂРєРё РІРІРѕРґР° РїРѕР»РµР№
 		   bool check_input_Loan2() {
 			   if (Loan2->Text->Length == 0) return false;
 			   for (unsigned int i = 0; i < Loan2->Text->Length; i++) {
@@ -411,7 +411,7 @@ namespace Calculator {
 			Sum = int(Sum);
 			MonthlyPayment2->Text = System::Convert::ToString(b);
 			TotalPayment2->Text = System::Convert::ToString(Sum);
-		}else MessageBox::Show("Введены некорректные данные!");
+		}else MessageBox::Show("Р’РІРµРґРµРЅС‹ РЅРµРєРѕСЂСЂРµРєС‚РЅС‹Рµ РґР°РЅРЅС‹Рµ!");
 	}
 private: System::Void Clear_Click(System::Object^ sender, System::EventArgs^ e) {
 	Loan2->Text = "";
